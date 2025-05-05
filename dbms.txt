@@ -1,0 +1,164 @@
+q1:
+
+create table course(cid int primary key , cname varchar(50), duration int );
+create table student(rno int primary key , sname varchar(50) , scity varchar(20) , cid int , foreign key student(cid) references course(cid));
+
+insert into student values (10 , "abc" , "Pune" , 101),
+(11 , "abc" , "Pune" , 101),
+(12 , "dfr" , "Pune" , 102),
+(13 , "ase" , "Pune" , 101),
+(14 , "frd" , "Pune" , 105),
+(15 , "gtf" , "Pune" , 103);
+insert into course values (101,"maths",4),
+(102,"english",4),
+(103,"marathi",4),
+(104,"mechanics",4),
+(105,"doctor",4),
+(106,"engg",4);
+
+update course set  duration = 2 where cid = 106;
+
+select * from student
+where sname like 'a%';
+
+
+q2:
+
+create table department(did int primary key  , dname varchar(50) , location text);
+create table  employee(
+	eid int primary key,
+    ename varchar(50),
+    ecity varchar(50),
+    salary int,
+    did int ,
+    foreign key (did) references department(did));
+INSERT INTO department (did, dname, location) VALUES
+(1, 'HR', 'New York'),
+(2, 'Finance', 'London'),
+(3, 'Engineering', 'San Francisco'),
+(4, 'Marketing', 'Berlin'),
+(5, 'Sales', 'Mumbai');
+
+INSERT INTO employee (eid, ename, ecity, salary, did) VALUES
+(101, 'Alice', 'New York', 60000, 1),
+(102, 'Bob', 'London', 55000, 2),
+(103, 'Charlie', 'San Francisco', 75000, 3),
+(104, 'Maya', 'Berlin', 50000, 4),
+(105, 'Raj', 'Mumbai', 48000, 5),
+(106, 'ravi', 'mahad', 450000, 4),
+(107, 'suraj', 'pune', 48000, 5);
+
+select avg(salary) from employee e  
+where did = 4;
+
+select * from employee 
+where salary between 20000 and 50000 ;
+
+select e.ename 
+from employee e , department d 
+where e.did = d.did and d.dname = "HR";
+
+
+q4:
+
+delete from student where scity="nashik";
+select * from student;
+select cname from course where duration between 2 and 5;
+create view cours as 
+select * from course where duration=4;
+select * from course;
+
+update course set duration=5 where cid=103; 
+
+select c.cname from course c , student s 
+where c.cid=s.cid and sname like 'dfr';
+
+
+q5:
+
+d: select avg(e.salary) as avg_sal , d.dname
+from employee e
+inner join department d on e.did=d.did
+group by dname;
+
+q6:
+
+a. Arithmetic Operations (3 examples)
+
+SELECT e_name, salary, salary + 5000 AS new_salary FROM Employee;
+
+SELECT e_name, salary * 12 AS annual_salary FROM Employee;
+
+SELECT e_name, salary / 2 AS half_salary FROM Employee;
+
+b. Aggregate Functions (3 examples)
+
+SELECT SUM(salary) AS total_salary FROM Employee;
+
+SELECT AVG(salary) AS avg_salary FROM Employee;
+
+SELECT COUNT(*) AS total_employees FROM Employee;
+
+q7:
+
+select count(*) as count , c.cname
+from student s
+inner join course c on c.cid=s.cid
+group by cname;
+
+select c.cname from course c 
+inner join student s on s.cid=c.cid
+where s.sname like 'abc';
+
+
+q8: 
+
+select avg(e.salary) as avg_sal  , d.dname from employee e 
+inner join department d on d.did=e.did 
+group by dname;
+
+select * from employee e 
+inner join department d on e.did=d.did
+where e.salary between 20000 and 50000;
+
+select * from employee
+where ename like '%e';
+
+select * from employee e 
+inner join department d on d.did = e.did 
+where dname='HR';
+
+q10:
+
+create  view details as 
+select * from employee 
+order by ename;
+
+select * from details;
+
+alter table employee add email varchar(600);
+UPDATE employee SET email = 'abc@gmail.com' WHERE eid = 101;
+UPDATE employee SET email = 'bob@gmail.com' WHERE eid = 102;
+UPDATE employee SET email = 'charlie@gmail.com' WHERE eid = 103;
+UPDATE employee SET email = 'maya@gmail.com' WHERE eid = 104;
+UPDATE employee SET email = 'raj@gmail.com' WHERE eid = 105;
+
+
+q11:
+
+-- create a stored procedure that will insert a new customer in the customer table and display all 
+-- values from the customer table.
+
+create table customer(cid int primary key , cname varchar(50));
+
+delimiter ! 
+create procedure newCustomer
+(id int , naam varchar(50))
+begin
+	insert into customer value (id,naam);
+    select * from customer;
+end!
+
+call newCustomer(101,"thala");
+
+q12
